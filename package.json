@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@openzeppelin/test-helpers": "^0.5.15",
     "@truffle/hdwallet-provider": "1.1.0",
     "apexcharts": "3.6.3",
     "babel-polyfill": "6.26.0",

@@ -20,9 +20,19 @@ function token(state = {}, action) {
   }
 }
 
+function exchange(state = {}, action) {
+  switch (action.type) {
+    case 'EXCHANGE_LOADED':
+      return { ...state, contract: action.contract };
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   web3,
   token,
+  exchange,
 });
 
 export default rootReducer;

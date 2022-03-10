@@ -30,7 +30,7 @@ export const loadToken = async (web3, networkId, dispatch) => {
     dispatch(tokenLoaded(token));
     return token;
   } catch (error) {
-    alert('Token contract not deployed in current network');
+    console.error('Token contract not deployed in current network');
     return null;
   }
 };
@@ -44,7 +44,7 @@ export const loadExchange = async (web3, networkId, dispatch) => {
     dispatch(exchangeLoaded(exchange));
     return exchange;
   } catch (error) {
-    alert('Token contract not deployed in current network');
+    console.error('Token contract not deployed in current network');
     return null;
   }
 };

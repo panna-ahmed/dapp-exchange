@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { exchangeSelector } from '../store/selectors';
-//import { loadAllOrders } from '../store/interactions';
+import { loadAllOrders } from '../store/interactions';
+import Trades from './Trades';
 
 class Content extends Component {
   componentWillMount() {
@@ -10,7 +11,7 @@ class Content extends Component {
 
   async loadBlockchainData(props) {
     const { dispatch, exchange } = props;
-    //await loadAllOrders(exchange, dispatch);
+    await loadAllOrders(this.props.exchange, dispatch);
     //await subscribeToEvents(exchange, dispatch);
   }
 
@@ -18,8 +19,8 @@ class Content extends Component {
     return (
       <div className="content">
         <div className="vertical-split"></div>
-
         <div className="vertical-split"></div>
+        <Trades />
       </div>
     );
   }

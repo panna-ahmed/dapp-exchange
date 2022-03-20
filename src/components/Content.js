@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { exchangeSelector } from '../store/selectors';
 import { loadAllOrders } from '../store/interactions';
 import Trades from './Trades';
+import OrderBook from './OrderBook';
 
 class Content extends Component {
   componentWillMount() {
@@ -19,6 +20,7 @@ class Content extends Component {
     return (
       <div className="content">
         <div className="vertical-split"></div>
+        <OrderBook />
         <div className="vertical-split"></div>
         <Trades />
       </div>

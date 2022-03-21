@@ -4,6 +4,7 @@ import { exchangeSelector } from '../store/selectors';
 import { loadAllOrders } from '../store/interactions';
 import Trades from './Trades';
 import OrderBook from './OrderBook';
+import MyTransactions from './MyTransactions';
 
 class Content extends Component {
   componentWillMount() {
@@ -21,7 +22,9 @@ class Content extends Component {
       <div className="content">
         <div className="vertical-split"></div>
         <OrderBook />
-        <div className="vertical-split"></div>
+        <div className="vertical-split">
+          <MyTransactions />
+        </div>
         <Trades />
       </div>
     );

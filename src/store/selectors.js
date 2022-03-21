@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { get, groupBy, reject } from 'lodash';
-import { tokens, ether, GREEN, RED } from '../helpers';
+import { tokens, ether, GREEN, RED, ETHER_ADDRESS } from '../helpers';
 import moment from 'moment';
 
 const { constants } = require('@openzeppelin/test-helpers');
@@ -166,3 +166,92 @@ const decorateOrderBookOrder = (order) => {
     orderFillClass: orderType === 'buy' ? 'sell' : 'buy',
   };
 };
+
+export const myFilledOrdersLoadedSelector = createSelector(
+  filledOrdersLoaded,
+  (loaded) => loaded
+);
+
+export const myFilledOrdersSelector = createSelector(
+  account,
+  filledOrders,
+  (account, orders) => {
+    // Find our orders
+    orders = orders.filter((o) => o.user === account || o.userFill === account);
+    // Sort by date ascending
+    orders = orders.sort((a, b) => a.timestamp - b.timestamp);
+    // Decorate orders - add display attributes
+    orders = decorateMyFilledOrders(orders, account);
+    return orders;
+  }
+);
+
+const decorateMyFilledOrders = (orders, account) => {
+  return orders.map((order) => {
+    order = decorateOrder(order);
+    order = decorateMyFilledOrder(order, account);
+    return order;
+  });
+};
+
+const decorateMyFilledOrder = (order, account) => {
+  const myOrder = order.user === account;
+
+  let orderType;
+  if (myOrder) {
+    orderType = order.tokenGive === ETHER_ADDRESS ? 'buy' : 'sell';
+  } else {
+    orderType = order.tokenGive === ETHER_ADDRESS ? 'sell' : 'buy';
+  }
+
+  return {
+    ...order,
+    orderType,
+    orderTypeClass: orderType === 'buy' ? GREEN : RED,
+    orderSign: orderType === 'buy' ? '+' : '-',
+  };
+};
+
+export const myOpenOrdersLoadedSelector = createSelector(
+  orderBookLoaded,
+  (loaded) => loaded
+);
+
+export const myOpenOrdersSelector = createSelector(
+  account,
+  openOrders,
+  (account, orders) => {
+    // Filter orders created by current account
+    orders = orders.filter((o) => o.user === account);
+    // Decorate orders - add display attributes
+    orders = decorateMyOpenOrders(orders);
+    // Sort orders by date descending
+    orders = orders.sort((a, b) => b.timestamp - a.timestamp);
+    return orders;
+  }
+);
+
+const decorateMyOpenOrders = (orders, account) => {
+  return orders.map((order) => {
+    order = decorateOrder(order);
+    order = decorateMyOpenOrder(order, account);
+    return order;
+  });
+};
+
+const decorateMyOpenOrder = (order, account) => {
+  let orderType = order.tokenGive === ETHER_ADDRESS ? 'buy' : 'sell';
+
+  return {
+    ...order,
+    orderType,
+    orderTypeClass: orderType === 'buy' ? GREEN : RED,
+  };
+};
+
+const orderCancelling = (state) =>
+  get(state, 'exchange.orderCancelling', false);
+export const orderCancellingSelector = createSelector(
+  orderCancelling,
+  (status) => status
+);

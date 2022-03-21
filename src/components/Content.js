@@ -5,6 +5,7 @@ import { loadAllOrders } from '../store/interactions';
 import Trades from './Trades';
 import OrderBook from './OrderBook';
 import MyTransactions from './MyTransactions';
+import PriceChart from './PriceChart';
 
 class Content extends Component {
   componentWillMount() {
@@ -23,6 +24,7 @@ class Content extends Component {
         <div className="vertical-split"></div>
         <OrderBook />
         <div className="vertical-split">
+          <PriceChart />
           <MyTransactions />
         </div>
         <Trades />

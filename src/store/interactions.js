@@ -92,3 +92,9 @@ export const cancelOrder = (dispatch, exchange, order, account) => {
       window.alert('There was an error!');
     });
 };
+
+export const subscribeToEvents = async (exchange, dispatch) => {
+  exchange.events.Cancel({}, (error, event) => {
+    dispatch(orderCancelled(event.returnValues));
+  });
+};
